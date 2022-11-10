@@ -29,6 +29,7 @@ class JSONWebTokenSerializer(serializers.Serializer):
     password = serializers.CharField(
         write_only=True, required=True, style={'input_type': 'password'})
     token = serializers.CharField(read_only=True)
+    pk = serializers.IntegerField(read_only=True)
 
     def __init__(self, *args, **kwargs):
         """Dynamically add the USERNAME_FIELD to self.fields."""
@@ -141,6 +142,8 @@ class ImpersonateAuthTokenSerializer(serializers.Serializer):
 
     User = get_user_model()
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    token = serializers.CharField(read_only=True)
 
     class Meta:
         fields = ("user", )
